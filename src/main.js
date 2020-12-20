@@ -85,25 +85,24 @@ const store = new Vuex.Store({
   actions: {
     // мелодия при завершении таймера
     finishAudio() {
-      let audio = new Audio('/assets/sounds/finishTimer.mp3')
+      let audio = new Audio('/sounds/finishTimer.mp3')
       audio.play()
     },
 
     // мелодия при старте таймере
     startAudio() {
-      let audio = new Audio('/assets/sounds/startTimer.mp3')
+      let audio = new Audio('/sounds/startTimer.mp3')
       audio.play()
     },
-
     // мелодия при принудительной остановке таймера
     stopAudio() {
-      let audio = new Audio('/assets/sounds/stopTimer.mp3')
+      let audio = new Audio('/sounds/stopTimer.mp3')
       audio.play()
     },
 
     // мелодия при смене таймера
     checkAudio() {
-      let audio = new Audio('/assets/sounds/check.mp3')
+      let audio = new Audio('/sounds/check.mp3')
       audio.play()
     }
   }

@@ -1,11 +1,10 @@
 <template>
   <div id="app">
     <header>
-      <div class="logo"><img src="./assets/image/logo.svg" alt=""></div>
+      <div class="logo"><img src="./assets/img/logo.svg" alt=""></div>
       <h1>Tomer</h1>
     </header>
 
-    <audio src="./assets/sounds/stopTimer.mp3"></audio>
     <div class="timer-wrap">
       <div
           class="item"
@@ -24,8 +23,8 @@
       </div>
     </div>
     <div class="timer-button">
-      <img src="./assets/image/start.svg" v-on:click="startTimer" v-if="!isPlay">
-      <img src="./assets/image/stop.svg" v-on:click="stopTimer" v-else>
+      <img src="./assets/img/start.svg" v-on:click="startTimer" v-if="!isPlay">
+      <img src="./assets/img/stop.svg" v-on:click="stopTimer" v-else>
     </div>
   </div>
 </template>
