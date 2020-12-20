@@ -105,10 +105,10 @@
     justify-content: center;
   }
   #app {
-    width: 500px;
+    width: 470px;
     background: #fff;
     border-radius: 5px;
-    box-shadow: 4px 4px 10px rgba(0,0,0,.1);
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
     overflow: hidden;
     max-width: 90%;
   }
@@ -125,7 +125,7 @@
   h1 {
     font-size: 40px;
     color: #d23834;
-    margin: 30px 0;
+    margin: 40px 0;
   }
   .timer-wrap {
     display: flex;
@@ -150,7 +150,7 @@
   }
   .timer-button {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
   }
   .timer-button img{
     width: 70px;
