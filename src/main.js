@@ -62,7 +62,16 @@ const store = new Vuex.Store({
 
     // установка активного таймера
     setActiveTimer(state, payload) {
-      state.activeTimer = payload.timer
+
+      // если таймер уже запущен, то останавливаем и меняем активный таймер
+      if (state.isPlay) {
+        store.commit('stopTimer')
+        state.activeTimer = payload.timer
+      } else {
+        // просто меняем активный таймер
+        store.dispatch('checkAudio')
+        state.activeTimer = payload.timer
+      }
     },
 
     // остановка таймера по кнопке

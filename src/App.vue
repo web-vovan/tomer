@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <div class="logo"><img src="./assets/img/logo.svg" alt=""></div>
+      <img src="./assets/img/logo.svg" class="logo" alt="">
       <h1>Tomer</h1>
     </header>
 
@@ -62,9 +62,8 @@
        this.$store.commit('setActiveTimer', {
          timer: event.target.dataset.timer
        })
-       this.$store.dispatch('checkAudio')
      },
-     change(event) {
+     changeStatus(event) {
        if (event.code === 'Space') {
          console.log('space');
        }
@@ -104,7 +103,7 @@
     align-items: center;
     justify-content: center;
   }
-  .logo img {
+  .logo {
     width: 50px;
     margin-right: 20px;
   }
