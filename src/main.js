@@ -113,6 +113,15 @@ const store = new Vuex.Store({
     checkAudio() {
       let audio = new Audio('/sounds/check.mp3')
       audio.play()
+    },
+
+    // включение/остановка таймера
+    controlTimer() {
+      if (store.state.isPlay) {
+        store.commit('stopTimer')
+      } else {
+        store.commit('countdown')
+      }
     }
   }
 })

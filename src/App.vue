@@ -63,14 +63,15 @@
          timer: event.target.dataset.timer
        })
      },
-     changeStatus(event) {
+     keyEvent(event) {
+       // при нажатии на пробел включаем/останавливаем таймер
        if (event.code === 'Space') {
-         console.log('space');
+         this.$store.dispatch('controlTimer')
        }
      }
    },
    created() {
-     window.addEventListener('keyup', this.changeStatus)
+     window.addEventListener('keyup', this.keyEvent)
    }
  }
 </script>
