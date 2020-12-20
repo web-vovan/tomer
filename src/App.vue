@@ -1,28 +1,47 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <table>
+      <tr>
+        <td>workTime</td>
+        <td>breakTime</td>
+      </tr>
+      <tr>
+        <td>{{ workTime }}</td>
+        <td>{{ breakTime }}</td>
+      </tr>
+    </table>
+    <button v-if="isPlay" v-on:click="countdown">stop</button>
+    <button v-else v-on:click="countdown">start</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+ export default {
+   data() {
+     return {
+       play: false
+     }
+   },
+   computed: {
+     workTime() {
+       return this.$store.state.workTime
+     },
+     breakTime() {
+       return this.$store.state.breakTime
+     },
+     isPlay() {
+       return this.play
+     }
+   },
+   methods: {
+     countdown() {
+       this.play = true
+       this.$store.commit('countdownWorkTime')
+     }
+   }
+ }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
