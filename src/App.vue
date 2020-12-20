@@ -68,6 +68,20 @@
        if (event.code === 'Space') {
          this.$store.dispatch('controlTimer')
        }
+
+       // при клике на стрелку вправо выбираем таймер отдыха
+       if (event.code === 'ArrowRight') {
+         this.$store.dispatch('changeTimer', {
+           timer: 'breakTimer'
+         })
+       }
+
+       // при клике на стрелку влево выбираем таймер работы
+       if (event.code === 'ArrowLeft') {
+         this.$store.dispatch('changeTimer', {
+           timer: 'workTimer'
+         })
+       }
      }
    },
    created() {

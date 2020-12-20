@@ -122,6 +122,18 @@ const store = new Vuex.Store({
       } else {
         store.commit('countdown')
       }
+    },
+
+    // смена таймера при клике на кнопки влево/вправо
+    changeTimer(state, payload) {
+      // если таймер активен, то останавливаем его и устанавливаем активный таймер
+      if (store.state.isPlay) {
+        store.commit('stopTimer')
+        store.commit('setActiveTimer', payload)
+      } else {
+        // меняем активный таймер
+        store.commit('setActiveTimer', payload)
+      }
     }
   }
 })
