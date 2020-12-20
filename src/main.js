@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 // конфиг
 const config = {
   workTimer: 24 * 60, // рабочий таймер в секундах
-  breakTimer: 5 * 60, // таймер отдыха в секундах
+  breakTimer: 12, // таймер отдыха в секундах
   activeTimer: 'workTimer', // активный таймер по умолчанию
   isPlay: false // флаг запуска таймера
 }
