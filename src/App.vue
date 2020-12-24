@@ -59,6 +59,7 @@
        this.$store.commit('stopTimer')
      },
      activate: function(event) {
+       this.$store.dispatch('checkAudio')
        this.$store.commit('setActiveTimer', {
          timer: event.target.dataset.timer
        })
@@ -71,6 +72,7 @@
 
        // при клике на стрелку вправо выбираем таймер отдыха
        if (event.code === 'ArrowRight') {
+         this.$store.dispatch('checkAudio')
          this.$store.dispatch('changeTimer', {
            timer: 'breakTimer'
          })
@@ -78,6 +80,7 @@
 
        // при клике на стрелку влево выбираем таймер работы
        if (event.code === 'ArrowLeft') {
+         this.$store.dispatch('checkAudio')
          this.$store.dispatch('changeTimer', {
            timer: 'workTimer'
          })

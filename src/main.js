@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuex from 'vuex'
+import * as workerTimers from 'worker-timers'
 
 Vue.use(Vuex)
 Vue.config.productionTip = false
@@ -8,7 +9,7 @@ Vue.config.productionTip = false
 // конфиг
 const config = {
   workTimer: 25 * 60, // рабочий таймер в секундах
-  breakTimer: 4, // таймер отдыха в секундах
+  breakTimer: 7 * 60, // таймер отдыха в секундах
   activeTimer: 'workTimer', // активный таймер по умолчанию
   isPlay: false // флаг запуска таймера
 }
@@ -19,6 +20,8 @@ const store = new Vuex.Store({
     breakTimer: config.breakTimer,
     activeTimer: config.activeTimer,
     isPlay: config.isPlay,
+    timerId: null,
+    finishTime: null
   },
 
   mutations: {
@@ -29,23 +32,47 @@ const store = new Vuex.Store({
       // активируем таймер
       store.commit('setPlayState', true)
 
-      setTimeout(function run() {
-        // проверяем активен ли таймер
-        // используется при остановке таймера кнопкой СТОП
-        if (state.isPlay === false) {
-          return false;
+      // устанавливаем время в миллисекундах окончания таймера
+      store.commit('setFinishTime')
+
+      function workSecCount() {
+
+        state[state.activeTimer] = Math.ceil((state.finishTime - new Date().getTime()) / 1000)
+
+        if (state[state.activeTimer] < 0) {
+          console.log(new Date())
+          // удаляем таймер
+          store.dispatch('timerDestroy')
+
+          // сбрасываем все значения
+          store.commit('reset')
+
+          // отключаем таймер
+          store.commit('setPlayState', false)
+
+          // переключаем активный таймер
+          let newActiveTimer = store.state.activeTimer === 'breakTimer' ? 'workTimer' : 'breakTimer'
+          store.commit('setActiveTimer', {
+            timer: newActiveTimer
+          })
+
+          // проигрываем мелодию при завершении таймера
+          store.dispatch('finishAudio')
         }
+      }
 
-        // уменьшаем значение таймера
-        state[state.activeTimer] -= 1
-
-        setTimeout(run, 1000)
-      }, 1000)
+      workSecCount()
+      state.timerId = workerTimers.setInterval(workSecCount, 1000)
     },
 
     // установка состояния таймера
     setPlayState(state, payload) {
-      state.isPlay = payload
+      state.isPlay = payload // флаг активности таймера
+    },
+
+    // время в миллесекундах окончания таймера
+    setFinishTime(state) {
+      state.finishTime = new Date().getTime() + state[state.activeTimer] * 1000
     },
 
     // установка активного таймера
@@ -57,13 +84,15 @@ const store = new Vuex.Store({
         state.activeTimer = payload.timer
       } else {
         // просто меняем активный таймер
-        store.dispatch('checkAudio')
         state.activeTimer = payload.timer
       }
     },
 
     // остановка таймера по кнопке
     stopTimer() {
+      // удаляем таймер
+      store.dispatch('timerDestroy')
+
       // отключаем таймер
       store.commit('setPlayState', false)
 
@@ -93,7 +122,7 @@ const store = new Vuex.Store({
       let audio = new Audio('/sounds/startTimer.mp3')
       audio.play()
     },
-    // мелодия при принудительной остановке таймера
+    // мелодия при принудительной остановки таймера
     stopAudio() {
       let audio = new Audio('/sounds/stopTimer.mp3')
       audio.play()
@@ -115,36 +144,46 @@ const store = new Vuex.Store({
     },
 
     // смена таймера при клике на кнопки влево/вправо
-    changeTimer(state, payload) {
+    changeTimer(context, payload) {
       // если таймер активен, то останавливаем его и устанавливаем активный таймер
-      if (store.state.isPlay) {
-        store.commit('stopTimer')
-        store.commit('setActiveTimer', payload)
+      if (context.state.isPlay) {
+        context.commit('stopTimer')
+        context.commit('setActiveTimer', payload)
       } else {
         // меняем активный таймер
-        store.commit('setActiveTimer', payload)
+        context.commit('setActiveTimer', payload)
       }
+    },
+
+    // удаляем таймер
+    timerDestroy(context) {
+      workerTimers.clearInterval(context.state.timerId)
+      // context.state.timerId = null
     }
   }
 })
 
 // отслеживаем обнуление таймера
 store.watch((state) => state[state.activeTimer], (oldValue, newValue) => {
-  if (newValue === 0) {
-    // отключаем таймер
-    store.commit('setPlayState', false)
-
-    // сбрасываем все значения
-    store.commit('reset')
-
-    // переключаем активный таймер
-    let newActiveTimer = store.state.activeTimer === 'breakTimer' ? 'workTimer' : 'breakTimer'
-    store.commit('setActiveTimer', {
-      timer: newActiveTimer
-    })
-
-    // проигрываем мелодию при завершении таймера
-    store.dispatch('finishAudio')
+  if (newValue <= 0) {
+    // удаляем таймер
+    // store.dispatch('timerDestroy')
+    //
+    // // сбрасываем все значения
+    // store.commit('reset')
+    //
+    // // отключаем таймер
+    // store.commit('setPlayState', false)
+    //
+    // // переключаем активный таймер
+    // let newActiveTimer = store.state.activeTimer === 'breakTimer' ? 'workTimer' : 'breakTimer'
+    // console.log(newActiveTimer)
+    // store.commit('setActiveTimer', {
+    //   timer: newActiveTimer
+    // })
+    //
+    // // проигрываем мелодию при завершении таймера
+    // store.dispatch('finishAudio')
   }
 })
 

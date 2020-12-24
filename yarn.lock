@@ -806,10 +806,10 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/runtime@^7.11.0", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.11.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.8.4":
   version "7.12.5"
-  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.12.5.tgz?cache=0&sync_timestamp=1604441258461&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
-  integrity sha1-QQ5+SHRB4bNgwpvnFdhw2bmFiC4=
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -3714,6 +3714,14 @@ fast-levenshtein@~2.0.6:
   version "2.0.6"
   resolved "https://registry.npm.taobao.org/fast-levenshtein/download/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+
+fast-unique-numbers@^5.0.21:
+  version "5.0.21"
+  resolved "https://registry.yarnpkg.com/fast-unique-numbers/-/fast-unique-numbers-5.0.21.tgz#b856e629f92d7214f8e3a0bf3171864ddc174314"
+  integrity sha512-rzJX09WSiR9xpwtegJ+i5HmkpB/JM5LPjAYbmiMQE4L//bE7+aLzyWGyYnFKAC1o/9D3sVG4ZEuVwYpTegEGEw==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    tslib "^2.0.3"
 
 faye-websocket@^0.10.0:
   version "0.10.0"
@@ -7779,6 +7787,11 @@ tslib@^1.9.0:
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1602286826065&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
 
+tslib@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
+  integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
+
 tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.npm.taobao.org/tty-browserify/download/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
@@ -8340,6 +8353,34 @@ worker-farm@^1.7.0:
   integrity sha1-JqlMU5G7ypJhUgAvabhKS/dy5ag=
   dependencies:
     errno "~0.1.7"
+
+worker-timers-broker@^6.0.29:
+  version "6.0.29"
+  resolved "https://registry.yarnpkg.com/worker-timers-broker/-/worker-timers-broker-6.0.29.tgz#216e41d4095fd01e26952e8aa24f0493221e0c28"
+  integrity sha512-ZXnucD02gMdxG1egh4HJ3eXHCT6sPX56LCV+Uz3kXdDAXeyjpppmYa2owvtsFBZOK0Vqe+aYZ79cjiAzN0QJcg==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    fast-unique-numbers "^5.0.21"
+    tslib "^2.0.3"
+    worker-timers-worker "^7.0.4"
+
+worker-timers-worker@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/worker-timers-worker/-/worker-timers-worker-7.0.4.tgz#6b3e39deebc013a8194d387be9a5dc7340abfca4"
+  integrity sha512-38k36wW65neTFtBah5C0WjJAWXUYzSDOZI3ClIhDx2t6qRLTnCOzuhfoTTRqTK0Eiut8bXmYXztIg8u6vkcZ/Q==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    tslib "^2.0.3"
+
+worker-timers@^7.0.7:
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/worker-timers/-/worker-timers-7.0.7.tgz#055898a792ee418c5cfd04ddf46ef7b4e2bb1f6b"
+  integrity sha512-8gqDT0bx987YBqf7xBF8dNo0M1jtQtkonT/GPtEShep9YdF+H5E/i+yPwiPBuuCgjFiHDayXXuo62i0bOAvK/g==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    tslib "^2.0.3"
+    worker-timers-broker "^6.0.29"
+    worker-timers-worker "^7.0.4"
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
