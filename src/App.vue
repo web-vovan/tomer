@@ -9,16 +9,16 @@
       <div
           class="item"
           data-timer="workTimer"
-          v-on:click="activate"
-          v-bind:class="{ active: activeTimer === 'workTimer' }"
+          v-on:click="activateTimer"
+          v-bind:class="{ active: currentTimer === 'workTimer' }"
       >
         {{ workTimer }}
       </div>
       <div
           class="item"
           data-timer="breakTimer"
-          v-on:click="activate"
-          v-bind:class="{ active: activeTimer === 'breakTimer' }">
+          v-on:click="activateTimer"
+          v-bind:class="{ active: currentTimer === 'breakTimer' }">
         {{ breakTimer }}
       </div>
     </div>
@@ -47,43 +47,64 @@
      isPlay() {
        return this.$store.state.isPlay
      },
-     activeTimer() {
-       return this.$store.state.activeTimer
+     currentTimer() {
+       return this.$store.state.currentTimer
      }
    },
    methods: {
      startTimer() {
+       this.$store.dispatch('startAudio')
        this.$store.commit('countdown')
      },
      stopTimer() {
-       this.$store.commit('stopTimer')
+       this.$store.dispatch('stopAudio')
+       this.$store.dispatch('stopTimer')
      },
-     activate: function(event) {
-       this.$store.dispatch('checkAudio')
-       this.$store.commit('setActiveTimer', {
-         timer: event.target.dataset.timer
-       })
+     // проигрываем мелодию в зависимости от активности таймера
+     playAudioAfterChange() {
+       (this.$store.state.isPlay) ? this.$store.dispatch('stopAudio') : this.$store.dispatch('checkAudio');
+     },
+     activateTimer: function(event) {
+       // проигрываем мелодию
+       this.playAudioAfterChange()
+
+       // останавливаем таймер
+       this.$store.dispatch('stopTimer')
+
+       // меняем активный таймер
+       this.$store.commit('setCurrentTimer', event.target.dataset.timer)
      },
      keyEvent(event) {
        // при нажатии на пробел включаем/останавливаем таймер
        if (event.code === 'Space') {
-         this.$store.dispatch('controlTimer')
+         // проигрываем мелодию в зависимости от активности таймера
+         (this.$store.state.isPlay) ? this.$store.dispatch('stopAudio') : this.$store.dispatch('startAudio');
+
+         (this.$store.state.isPlay) ? this.$store.dispatch('stopTimer') : this.$store.commit('countdown');
        }
 
        // при клике на стрелку вправо выбираем таймер отдыха
        if (event.code === 'ArrowRight') {
-         this.$store.dispatch('checkAudio')
-         this.$store.dispatch('changeTimer', {
-           timer: 'breakTimer'
-         })
+         // проигрываем мелодию
+         this.playAudioAfterChange()
+
+         // останавливаем таймер
+         this.$store.dispatch('stopTimer')
+
+         // меняем активный таймер
+         this.$store.commit('setCurrentTimer', 'breakTimer')
        }
 
        // при клике на стрелку влево выбираем таймер работы
        if (event.code === 'ArrowLeft') {
-         this.$store.dispatch('checkAudio')
-         this.$store.dispatch('changeTimer', {
-           timer: 'workTimer'
-         })
+         // проигрываем мелодию
+         this.playAudioAfterChange()
+
+         // останавливаем таймер
+         this.$store.dispatch('stopTimer')
+
+         // меняем активный таймер
+         this.$store.commit('setCurrentTimer', 'workTimer')
        }
      }
    },
@@ -159,5 +180,4 @@
     width: 70px;
     cursor: pointer;
   }
-
 </style>
